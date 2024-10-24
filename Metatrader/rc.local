@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+sh '/Metatrader/uttungaa_pre_install.sh'
+sh '/Metatrader/start.sh'
+
+exit 0

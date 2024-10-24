@@ -8,16 +8,6 @@ LABEL maintainer="gmartin"
 
 ENV TITLE=Metatrader5
 ENV WINEPREFIX="/config/.wine"
-ENV PSQL_HOST=localhost
-ENV PSQL_PORT=5432
-ENV PSQL_USER=postgres
-ENV PSQL_PASSWORD=asterisk
-ENV USERID=jyothik8674665
-ENV MT5_HOST=localhost
-ENV MT5_PORT=8001
-ENV MT5_ACCOUNT=159028964
-ENV MT5_PASSWORD=Asterisk@123
-ENV MT5_SERVER=Exness-MT5Real20
 
 # Update package lists and upgrade packages
 RUN apt-get update && apt-get upgrade -y
@@ -27,8 +17,8 @@ RUN apt-get install -y \
     python3-pip \
     wget \
     git
-    # && pip3 install --upgrade pip
 
+    
 # Add WineHQ repository key and APT source
 RUN wget -q https://dl.winehq.org/wine-builds/winehq.key \
     && apt-key add winehq.key \
@@ -42,6 +32,8 @@ RUN dpkg --add-architecture i386 \
 # Install WineHQ stable package and dependencies
 RUN apt-get install --install-recommends -y \
     winehq-stable \
+    systemd  \
+    systemd-sysv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -49,7 +41,9 @@ RUN apt-get install --install-recommends -y \
 COPY /Metatrader /Metatrader
 RUN chmod +x /Metatrader/start.sh
 RUN chmod +x /Metatrader/uttungaa_pre_install.sh
-RUN sh /Metatrader/uttungaa_pre_install.sh
+RUN chmod +x /Metatrader/rc.local
+RUN cp /Metatrader/rc.local /etc/rc.local
+CMD /etc/rc.local && tail -f /dev/null
 
 COPY /root /
 

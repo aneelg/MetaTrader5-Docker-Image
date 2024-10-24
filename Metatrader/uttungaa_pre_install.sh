@@ -17,13 +17,13 @@ sudo apt install -y vim-tiny;
 sudo apt install -y postgresql;
 # Deb 11 needs the below command to start postgres
 sudo -u postgres pg_ctlcluster 15 main start
-
 sudo -u postgres psql -U postgres -d postgres -c "alter user postgres with password 'asterisk';"
-sudo -u postgres psql -U postgres -d jyothik8674665 -c "insert into strategy_config (name,index,lots,deploy_on,entry_mod,stop_loss,status,paper,entry_day,entry_time,exit_day,exit_time) values ('MT5','XAUUSDc',0.01,'DEV','500',1, 'ACTIVE','false',6,'10:00', 5, '15:20');"
 
 # postgresql-contrib -y;pip install psycopg2-binary;
 sudo apt-get install moreutils -y; 
 sudo apt-get install -y supervisor;
+sudo service supervisor stop
+sudo service supervisor start
 sudo apt-get install -y net-tools;
 
 # if [[ "$machine_arch" == "aarch64" ]]; then
@@ -45,3 +45,4 @@ sudo wget https://scm-analytics.s3.amazonaws.com/uttungaa_package/scripts/pg_hba
 sudo wget https://scm-analytics.s3.amazonaws.com/uttungaa_package/scripts/uttungaa_update_forex.sh -O /opt/uttungaa/scripts/uttungaa_update_forex.sh
 sudo wget https://scm-analytics.s3.amazonaws.com/uttungaa_package/scripts/update_forex.conf -O /etc/supervisor/conf.d/update_forex.conf
 sudo chmod a+x /opt/uttungaa/scripts/uttungaa_update_forex.sh
+sudo supervisorctl update
